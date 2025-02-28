@@ -3,17 +3,26 @@ import { BooksService } from './books.service';
 import { BooksController } from './books.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { BOOKS_SERVICE } from './constant';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
-    imports: [
-      ClientsModule.register([
-        {
-          name: BOOKS_SERVICE,
-          transport: Transport.TCP,
-          options: { port: 3002 },
-        },
-      ]),
-    ],
+  imports: [
+    ConfigModule.forRoot(),
+    ClientsModule.registerAsync([
+      {
+        name: BOOKS_SERVICE,
+        imports: [ConfigModule],
+        useFactory: async (configService: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [configService.get<string>('RABBITMQ_URL')],
+            queue: configService.get<string>('BOOKS_QUEUE'),
+          },
+        }),
+        inject: [ConfigService],
+      },
+    ]),
+  ],
   controllers: [BooksController],
   providers: [BooksService],
 })
