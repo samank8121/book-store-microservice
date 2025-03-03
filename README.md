@@ -7,7 +7,7 @@ This monorepo sample project consists of three subprojects:
 Additionally, there is a libs directory that provides a shared contract for common use.
 
 ## Project setup
-Create a `.env` file in the root directory with the following variables:
+Create `.env` files with the **following** keys:
 `RABBITMQ_URL`=your_rabbitmq_url  # RabbitMQ queue URL  
 `BOOKS_QUEUE`=your_books_queue_name  # RabbitMQ queue name  
 `USER_PORT`=your_user_service_port  # TCP port for connecting to the User service  
@@ -31,5 +31,5 @@ $ pnpm run start:prod
 ```
 
 
-## Stay in touch
-- Author - [Saman Kefayatpour](https://www.linkedin.com/in/samankefayatpour/)
+## Author
+- [Saman Kefayatpour](https://www.linkedin.com/in/samankefayatpour/)
