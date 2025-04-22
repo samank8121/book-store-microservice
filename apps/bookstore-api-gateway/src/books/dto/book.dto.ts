@@ -1,4 +1,4 @@
 export class BookDto {
-  id: number;
+  id: string;
   title: string;
 }

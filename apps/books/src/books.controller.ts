@@ -18,7 +18,7 @@ export class BooksController {
   }
 
   @MessagePattern(BOOKS_PATTERN.FIND_ONE)
-  findOne(@Payload() id: number) {
+  findOne(@Payload() id: string) {
     return this.booksService.findOne(id);
   }
 
@@ -28,7 +28,7 @@ export class BooksController {
   }
 
   @MessagePattern(BOOKS_PATTERN.REMOVE)
-  remove(@Payload() id: number) {
+  remove(@Payload() id: string) {
     return this.booksService.remove(id);
   }
 }
