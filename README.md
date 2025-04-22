@@ -31,5 +31,5 @@ $ pnpm run start:prod
 ```
 
 
-## Author
-- [Saman Kefayatpour](https://www.linkedin.com/in/samankefayatpour/)
+## Author Info
+[Saman Kefayatpour](https://www.linkedin.com/in/samankefayatpour/)
