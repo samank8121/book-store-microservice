@@ -20,8 +20,7 @@ export class AuthService {
       })
     );
     
-    const token = await lastValueFrom(result);
-    console.log('token auth service recieve', token.access_token); 
+    const token = await lastValueFrom(result); 
     response.cookie('Authentication', token.access_token, {
       httpOnly: true,      
       expires: new Date(token.expires),

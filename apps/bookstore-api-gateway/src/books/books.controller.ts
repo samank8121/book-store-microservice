@@ -10,7 +10,6 @@ export class BooksController {
   @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() createBookDto: CreateBookDto) {
-    console.log('createBookDto', createBookDto);
     return this.booksService.create(createBookDto);
   }
 
