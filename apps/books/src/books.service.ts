@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateBookDto, UpdateBookDto } from '@app/contracts/books';
+import { CreateBookDto, UpdateBookDto } from '@app/common/books';
 import { BooksRepository } from './books.repository';
 import { AuthorsRepository } from './authors.repository';
 

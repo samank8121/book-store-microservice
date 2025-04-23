@@ -3,7 +3,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
 import { Model, Connection } from 'mongoose';
 import { Book } from './schemas/book.schema';
-import { AbstractRepository } from 'libs/common/database/abstract.repository';
+import { AbstractRepository } from '@app/common/database';
 
 @Injectable()
 export class BooksRepository extends AbstractRepository<Book> {

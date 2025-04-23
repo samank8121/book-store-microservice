@@ -19,13 +19,13 @@
         "tsConfigPath": "apps/bookstore-api-gateway/tsconfig.app.json"
       }
     },
-    "users": {
+    "auth": {
       "type": "application",
-      "root": "apps/users",
+      "root": "apps/auth",
       "entryFile": "main",
-      "sourceRoot": "apps/users/src",
+      "sourceRoot": "apps/auth/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/users/tsconfig.app.json"
+        "tsConfigPath": "apps/auth/tsconfig.app.json"
       }
     },
     "books": {
@@ -37,13 +37,13 @@
         "tsConfigPath": "apps/books/tsconfig.app.json"
       }
     },
-    "contracts": {
+    "common": {
       "type": "library",
-      "root": "libs/contracts",
+      "root": "libs/common",
       "entryFile": "index",
-      "sourceRoot": "libs/contracts/src",
+      "sourceRoot": "libs/common/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/contracts/tsconfig.lib.json"
+        "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
     }
   }

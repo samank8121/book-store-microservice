@@ -1,13 +1,13 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { BOOKS_PATTERN } from '@app/contracts/books';
 import { ClientProxy } from '@nestjs/microservices';
 import { BookDto, CreateBookDto, UpdateBookDto } from './dto';
 import {
+  BOOKS_PATTERN,
   ServiceResponseDto,
   ServiceBookDto,
   CreateBookDto as ServiceCreateBookDto,
   UpdateBookDto as ServiceUpdateBookDto,
-} from '@app/contracts/books';
+} from '@app/common';
 import { map, catchError, pipe } from 'rxjs';
 import { BOOKS_SERVICE } from './constant';
 

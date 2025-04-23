@@ -44,6 +44,9 @@ importers:
       joi:
         specifier: ^17.13.3
         version: 17.13.3
+      mo:
+        specifier: ^1.7.3
+        version: 1.7.3
       mongoose:
         specifier: ^8.13.2
         version: 8.13.2
@@ -2153,6 +2156,10 @@ packages:
   mkdirp@0.5.6:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
     hasBin: true
+
+  mo@1.7.3:
+    resolution: {integrity: sha512-YJT2mnQBdeFkb0eESdatfyHW8WkPQAly5ImFNORlA1z8e64Uvo7gtTE3CefU3qTQx2Z3LnEwISP+WkxoSiFG/A==}
+    engines: {node: '>=0.8.0'}
 
   mongodb-connection-string-url@3.0.2:
     resolution: {integrity: sha512-rMO7CGo/9BFwyZABcKAWL8UJwH/Kc2x0g72uhDWzG48URRax5TCIcJ7Rc3RZqffZzO/Gwff/jyKwCU9TN8gehA==}
@@ -5518,6 +5525,8 @@ snapshots:
   mkdirp@0.5.6:
     dependencies:
       minimist: 1.2.8
+
+  mo@1.7.3: {}
 
   mongodb-connection-string-url@3.0.2:
     dependencies:

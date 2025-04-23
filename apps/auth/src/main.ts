@@ -8,7 +8,7 @@ async function bootstrap() {
     UsersModule,
     {
       transport: Transport.TCP,
-      options: { port: new ConfigService().get<number>('USER_PORT') },
+      options: { port: new ConfigService().get<number>('AUTH_PORT') },
     }
   );
   await app.listen();
