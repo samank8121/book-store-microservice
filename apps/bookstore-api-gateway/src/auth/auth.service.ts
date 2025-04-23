@@ -1,8 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { AUTH_SERVICE } from './constant';
 import { Response } from 'express';
-import { AUTH_PATTERN, CreateUserDto, LoginDto } from '@app/common';
+import { AUTH_PATTERN, AUTH_SERVICE, CreateUserDto, LoginDto } from '@app/common';
 import { catchError, lastValueFrom, map } from 'rxjs';
 
 @Injectable()
@@ -22,7 +21,7 @@ export class AuthService {
     );
     
     const token = await lastValueFrom(result);
-
+    console.log('token auth service recieve', token.access_token); 
     response.cookie('Authentication', token.access_token, {
       httpOnly: true,      
       expires: new Date(token.expires),

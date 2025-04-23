@@ -20,9 +20,9 @@ export class AuthService {
       expires.getSeconds() + this.configService.get('EXPIRATION_TIME'),
     );
     const tokenPayload = {
-      userId: result._id,
+      userId: result._id.toHexString(),
     };
-    const token = this.jwtService.sign(tokenPayload);
+    const token = this.jwtService.sign(tokenPayload); 
     return {
       access_token: token,  
       expires

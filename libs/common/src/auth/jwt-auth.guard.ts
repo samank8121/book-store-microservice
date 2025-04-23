@@ -23,6 +23,9 @@ export class JwtAuthGuard implements CanActivate {
         Authentication: authentication,
       })
       .pipe(
+        tap(() => {
+          this.getCurrentUserByContext(context);
+        }),
         tap((res) => {
           this.addUser(res, context);
         }),
@@ -47,7 +50,14 @@ export class JwtAuthGuard implements CanActivate {
     }
     return authentication;
   }
-
+  private getCurrentUserByContext = (context: ExecutionContext) => {
+    if (context.getType() === 'http') {
+      return context.switchToHttp().getRequest().user;
+    }
+    if (context.getType() === 'rpc') {
+      return context.switchToRpc().getData().user;
+    }
+  };
   private addUser(user: any, context: ExecutionContext) {
     if (context.getType() === 'rpc') {
       context.switchToRpc().getData().user = user;

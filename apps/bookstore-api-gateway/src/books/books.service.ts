@@ -37,6 +37,7 @@ export class BooksService {
         return this.mapBooksDto(response);
       }),
       catchError((error) => {
+        console.error('Error in BooksService:', error);
         throw error;
       })
     );

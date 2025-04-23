@@ -21,8 +21,9 @@ export class UsersService {
     });
     return user;
   }
-  findOne(id: string) {
-    return this.userRepository.findOne({ _id: id });
+  async findOne(id: string) {
+    const result = await this.userRepository.findOne({ _id: id });
+    return result;
   }
   async validateUser(email: string, password: string) {
     const user = await this.userRepository.findOne({ email });

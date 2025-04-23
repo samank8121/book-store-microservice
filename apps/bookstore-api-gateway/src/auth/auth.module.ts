@@ -3,7 +3,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { AUTH_SERVICE } from './constant';
+import { AUTH_SERVICE } from '@app/common';
 
 @Module({
   imports: [

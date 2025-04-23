@@ -4,10 +4,12 @@ import { BooksController } from './books.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { BOOKS_SERVICE } from './constant';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JWTAuthModule } from '@app/common';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    JWTAuthModule,
     ClientsModule.registerAsync([
       {
         name: BOOKS_SERVICE,

@@ -1,7 +1,7 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { AUTH_PATTERN, LoginDto } from '@app/common/auth';
+import { AUTH_PATTERN } from '@app/common/auth';
 import { CreateUserDto } from '@app/common/auth';
 import { JwtGuard } from './guards/jwt.guard';
 
@@ -20,8 +20,7 @@ export class UsersController {
   }
   @UseGuards(JwtGuard)
   @MessagePattern(AUTH_PATTERN.USER_VALIDATE)
-  async validate(@Payload() loginDto: LoginDto) {
-    const { email, password } = loginDto;
-    return this.usersService.validateUser(email, password);
+  async validate(req: any) {
+    return req;
   }
 }

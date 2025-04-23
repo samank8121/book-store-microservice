@@ -51,7 +51,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     const document = await this.model.findOne(filterQuery, projection, { lean: true });
 
     if (!document) {
-      this.logger.warn(`Document not found with filter: ${JSON.stringify(filterQuery)}`);
+      this.logger.warn(`Document not found with filter(${this.model.modelName}): ${JSON.stringify(filterQuery)}`);
       throw new NotFoundException('Document not found.');
     }
 
