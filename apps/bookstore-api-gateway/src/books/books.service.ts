@@ -8,12 +8,13 @@ import {
   CreateBookDto as ServiceCreateBookDto,
   UpdateBookDto as ServiceUpdateBookDto,
 } from '@app/contracts/books';
-import { map, catchError } from 'rxjs';
+import { map, catchError, pipe } from 'rxjs';
 import { BOOKS_SERVICE } from './constant';
 
 @Injectable()
 export class BooksService {
   constructor(@Inject(BOOKS_SERVICE) private bookClient: ClientProxy) {}
+
   private mapBooksDto(bookDto: ServiceResponseDto<ServiceBookDto>): BookDto {
     const {
       data: { _id, title },
@@ -23,26 +24,31 @@ export class BooksService {
       title: title,
     };
   }
+
+  private handleResponse() {
+    return pipe(
+      map((response: ServiceResponseDto<ServiceBookDto>) => {
+        if (response.error) {
+          throw new HttpException(
+            response.error.message || 'An error occurred',
+            response.error.status || HttpStatus.BAD_REQUEST
+          );
+        }
+        return this.mapBooksDto(response);
+      }),
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
   create(createBookDto: CreateBookDto) {
     return this.bookClient
       .send<
         ServiceResponseDto<ServiceBookDto>,
         ServiceCreateBookDto
       >(BOOKS_PATTERN.CREATE, createBookDto)
-      .pipe(
-        map((response) => {
-          if (response.error) {
-            throw new HttpException(
-              response.error.message || 'An error occurred',
-              response.error.status || HttpStatus.BAD_REQUEST
-            );
-          }
-          return this.mapBooksDto(response);
-        }),
-        catchError((error) => {
-          throw error;
-        })
-      );
+      .pipe(this.handleResponse());
   }
 
   findAll() {
@@ -54,10 +60,12 @@ export class BooksService {
   }
 
   update(id: string, updateBookDto: UpdateBookDto) {
-    return this.bookClient.send<ServiceBookDto, ServiceUpdateBookDto>(
-      BOOKS_PATTERN.UPDATE,
-      { id, ...updateBookDto }
-    );
+    return this.bookClient
+      .send<
+        ServiceResponseDto<ServiceBookDto>,
+        ServiceUpdateBookDto
+      >(BOOKS_PATTERN.UPDATE, { id, ...updateBookDto })
+      .pipe(this.handleResponse());
   }
 
   remove(id: string) {

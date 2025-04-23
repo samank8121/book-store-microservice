@@ -5,11 +5,17 @@ import { BooksRepository } from './books.repository';
 @Injectable()
 export class BooksService {
   constructor(private readonly booksRepository: BooksRepository) {}
-  create(createBookDto: CreateBookDto) {
-    if (this.booksRepository.findOne({ title: createBookDto.title })) {
-      return { error: new HttpException('Book already exists', HttpStatus.CONFLICT) };
+  async create(createBookDto: CreateBookDto) {
+    const result = await this.booksRepository.find({
+      title: createBookDto.title,
+    });
+    if (result.length > 0) {
+      return {
+        error: new HttpException('Book already exists', HttpStatus.CONFLICT),
+      };
     }
-    return this.booksRepository.create(createBookDto);
+    const createdBook = await this.booksRepository.create(createBookDto);
+    return { data: createdBook };
   }
 
   findAll() {
@@ -17,15 +23,23 @@ export class BooksService {
   }
 
   findOne(id: string) {
-    return this.booksRepository.findOne({ id });
+    return this.booksRepository.findOne({ _id: id });
   }
 
-  update(id: string, updateBookDto: UpdateBookDto) {
-    return this.booksRepository.findOneAndUpdate({ id }, updateBookDto);
+  async update(id: string, updateBookDto: UpdateBookDto) {
+    try {
+      const result = await this.booksRepository.findOneAndUpdate({ _id: id }, updateBookDto);
+      return { data: result };
+    }
+    catch (error) {
+      return {
+        error: new HttpException(error.message, error.status),
+      };
+    }
   }
 
   async remove(id: string) {
-    const result = await this.booksRepository.delete({ id });
+    const result = await this.booksRepository.delete({ _id: id });
     return result.acknowledged && result.deletedCount > 0;
   }
 }
