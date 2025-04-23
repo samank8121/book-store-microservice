@@ -4,9 +4,11 @@ import * as Joi from 'joi';
 import { DatabaseModule } from 'libs/common/database/database.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Book, BookSchema } from './schemas/book.schema';
+import { Author, AuthorSchema } from './schemas/author.schema';
 import { BooksController } from './books.controller';
 import { BooksService } from './books.service';
 import { BooksRepository } from './books.repository';
+import { AuthorsRepository } from './authors.repository';
 
 @Module({
   imports: [
@@ -18,9 +20,12 @@ import { BooksRepository } from './books.repository';
       envFilePath: './apps/books/.env',
     }),
     DatabaseModule,
-    MongooseModule.forFeature([{ name: Book.name, schema: BookSchema }]),
+    MongooseModule.forFeature([
+      { name: Book.name, schema: BookSchema },
+      { name: Author.name, schema: AuthorSchema }
+    ]),
   ],
   controllers: [BooksController],
-  providers: [BooksService, BooksRepository],
+  providers: [BooksService, BooksRepository, AuthorsRepository],
 })
 export class BooksAppModule {}
