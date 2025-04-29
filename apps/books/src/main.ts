@@ -11,6 +11,10 @@ async function bootstrap() {
       options: {
         urls: [new ConfigService().get<string>('RABBITMQ_URL')],
         queue: new ConfigService().get<string>('BOOKS_QUEUE'),
+        socketOptions: { 
+          heartbeat: 60,
+        },
+        persistent: true, 
       },
     }
   );

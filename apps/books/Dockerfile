@@ -1,38 +1,33 @@
 FROM node:alpine AS development
 
-RUN apk add --no-cache iputils
-RUN apk add --no-cache mongodb-tools
+WORKDIR /usr/src/app
+
+# Install required tools
+RUN apk add --no-cache \
+    iputils \
+    mongodb-tools \
+    python3 \
+    make \
+    g++
+
+# Install pnpm
 RUN npm install -g pnpm
 
-WORKDIR /usr/src/app
-
-COPY package.json pnpm-lock.yaml ./
-COPY tsconfig.json tsconfig.json
-COPY nest-cli.json nest-cli.json
-
-RUN pnpm install
-
-COPY apps/books apps/books
-COPY libs libs
-
-RUN cd apps/books && pnpm install
-
-RUN pnpm run build books
-
-FROM node:alpine as production
-
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
-WORKDIR /usr/src/app
-
+# Copy root files first
 COPY package.json ./
 COPY pnpm-lock.yaml ./
+COPY tsconfig.json ./
+COPY tsconfig.build.json ./
+COPY nest-cli.json ./
 
-RUN npm install -g pnpm
+COPY wait-for-it.sh ./wait-for-it.sh
+RUN chmod +x ./wait-for-it.sh
 
-RUN pnpm install --prod
+# Copy the books app and libs
+COPY apps/books ./apps/books
+COPY libs ./libs
 
-COPY --from=development /usr/src/app/dist ./dist
+# Install dependencies
+RUN pnpm install
 
-CMD ["node", "dist/apps/books/main"]
+COPY . .

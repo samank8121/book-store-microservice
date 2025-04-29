@@ -22,7 +22,8 @@ services:
       context: .
       dockerfile: ./apps/books/Dockerfile
       target: development
-    command: pnpm run start:dev books
+    command: sh -c './wait-for-it.sh rabbitmq:5672 -- pnpm run start:dev books'
+    #command: pnpm run start:dev books
     env_file:
       - ./.env
     depends_on:
@@ -48,14 +49,13 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
   rabbitmq:
-    image: rabbitmq:4.1
-    environment:
-      - RABBITMQ_CONFIG_FILE=/usr/src/app/rabbitmq.conf
+    image: rabbitmq:3.13-management
     volumes:
-      - ./rabbitmq.conf:/usr/src/app/rabbitmq.conf
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
     ports:
       - '5672:5672'
       - '15672:15672'
+    restart: unless-stopped
   mongodb-primary:
     image: docker.io/bitnami/mongodb:5.0
     environment:

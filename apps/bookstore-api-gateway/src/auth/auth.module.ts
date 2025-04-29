@@ -7,20 +7,25 @@ import { AUTH_SERVICE } from '@app/common';
 
 @Module({
   imports: [
-      ConfigModule.forRoot(),
-      ClientsModule.registerAsync([
-        {
-          name: AUTH_SERVICE,
-          imports: [ConfigModule],
-          useFactory: async (configService: ConfigService) => ({
+    ConfigModule.forRoot(),
+    ClientsModule.registerAsync([
+      {
+        name: AUTH_SERVICE,
+        imports: [ConfigModule],
+        useFactory: async (configService: ConfigService) => {
+          return {
             transport: Transport.TCP,
-            options: { port: configService.get<number>('AUTH_PORT') },
-          }),
-          inject: [ConfigService],
+            options: { 
+              host: configService.get<string>('AUTH_HOST'),
+              port: configService.get<number>('AUTH_PORT') 
+            },
+          };
         },
-      ]),
-    ],
+        inject: [ConfigService],
+      },
+    ]),
+  ],
   controllers: [AuthController],
-  providers: [AuthService]
+  providers: [AuthService],
 })
 export class AuthModule {}

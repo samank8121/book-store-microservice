@@ -1,38 +1,30 @@
 FROM node:alpine AS development
 
-RUN apk add --no-cache iputils
-RUN apk add --no-cache mongodb-tools
+WORKDIR /usr/src/app
+
+# Install required tools
+RUN apk add --no-cache \
+    iputils \
+    mongodb-tools \
+    python3 \
+    make \
+    g++
+
+# Install pnpm
 RUN npm install -g pnpm
 
-WORKDIR /usr/src/app
-
-COPY package.json pnpm-lock.yaml ./
-COPY tsconfig.json tsconfig.json
-COPY nest-cli.json nest-cli.json
-
-RUN pnpm install
-
-COPY apps/auth apps/auth
-COPY libs libs
-
-RUN cd apps/auth && pnpm install
-
-RUN pnpm run build auth
-
-FROM node:alpine as production
-
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
-WORKDIR /usr/src/app
-
+# Copy root files first
 COPY package.json ./
 COPY pnpm-lock.yaml ./
+COPY tsconfig.json ./
+COPY tsconfig.build.json ./
+COPY nest-cli.json ./
 
-RUN npm install -g pnpm
+# Copy the auth app and libs
+COPY apps/auth ./apps/auth
+COPY libs ./libs
 
-RUN pnpm install --prod
+# Install dependencies
+RUN pnpm install
 
-COPY --from=development /usr/src/app/dist ./dist
-
-CMD ["node", "dist/apps/auth/main"]
+COPY . .
