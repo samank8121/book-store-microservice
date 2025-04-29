@@ -17,7 +17,7 @@ import { AuthorsRepository } from './authors.repository';
       validationSchema: Joi.object({
         MONGODB_URI: Joi.string().required(),
       }),
-      envFilePath: './apps/books/.env',
+      //envFilePath: './apps/books/.env',
     }),
     DatabaseModule,
     MongooseModule.forFeature([

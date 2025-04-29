@@ -1,0 +1,80 @@
+services:
+  bookstore-api-gateway:
+    build:
+      context: .
+      dockerfile: ./apps/bookstore-api-gateway/Dockerfile
+      target: development
+    command: pnpm run start:dev bookstore-api-gateway
+    env_file:
+      - ./.env
+    depends_on:
+      - mongodb-primary
+      - rabbitmq
+      - auth
+      - books
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '3000:3000'
+  books:
+    build:
+      context: .
+      dockerfile: ./apps/books/Dockerfile
+      target: development
+    command: pnpm run start:dev books
+    env_file:
+      - ./.env
+    depends_on:
+      - mongodb-primary
+      - auth
+      - rabbitmq
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules    
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: pnpm run start:dev auth
+    ports:
+      - '3001:3001'
+    env_file:
+      - ./.env
+    depends_on:
+      - mongodb-primary
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+  rabbitmq:
+    image: rabbitmq:4.1
+    environment:
+      - RABBITMQ_CONFIG_FILE=/usr/src/app/rabbitmq.conf
+    volumes:
+      - ./rabbitmq.conf:/usr/src/app/rabbitmq.conf
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+  mongodb-primary:
+    image: docker.io/bitnami/mongodb:5.0
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-primary
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+    volumes:
+      - 'mongodb_master_data:/bitnami/mongodb'
+    ports:
+      - '27017:27017'
+  mongo-client:
+    image: mongo:7
+    command: tail -f /dev/null
+    depends_on:
+      - mongodb-primary
+    networks:
+      - default
+
+volumes:
+  mongodb_master_data:
+    driver: local

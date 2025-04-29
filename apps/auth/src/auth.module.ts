@@ -21,7 +21,7 @@ import { JwtModule } from '@nestjs/jwt';
         TOKEN_SECRET_KEY: Joi.string().required(),
         EXPIRATION_TIME: Joi.string().required(),
       }),
-      envFilePath: './apps/auth/.env',
+      //envFilePath: './apps/auth/.env',
     }),
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => ({
