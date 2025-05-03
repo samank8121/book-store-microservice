@@ -16,27 +16,27 @@ This project uses JWT for authentication and **Docker** for infrastructure as co
 <div style="display: flex; flex-direction: column; flex-wrap: wrap;">
     <lable style="margin:0 5px"><strong>Docker compose:</strong></label>
     <br/>
-    <img src="readme-assets/docker.JPG" height="400" width="800">
+    <img src="readme-assets/docker.jpg" height="400" width="800">
     <br/>
     <lable style="margin:25px 5px;"><strong>Docker compose & Logs:</strong></label>
     <br/>
-    <img src="readme-assets/terminals.JPG" height="400" width="800">
+    <img src="readme-assets/terminals.jpg" height="400" width="800">
     <br/>
     <lable style="margin:25px 5px"><strong>Login:</strong></label>
     <br/>
-    <img src="readme-assets/postman-login.JPG" height="400" width="800">
+    <img src="readme-assets/postman-login.jpg" height="400" width="800">
     <br/>
     <lable style="margin:25px 5px"><strong>Create book with authentication header:</strong></label>
     <br/>
-    <img src="readme-assets/postman-create-book-header.JPG" height="400" width="800">
+    <img src="readme-assets/postman-create-book-header.jpg" height="400" width="800">
     <br/>
     <lable style="margin:25px 5px"><strong>Create book:</strong></label>
     <br/>
-    <img src="readme-assets/postman-create-book.JPG" height="400" width="800">
+    <img src="readme-assets/postman-create-book.jpg" height="400" width="800">
     <br/>
     <lable style="margin:25px 5px"><strong>RabbitMQ:</strong></label>
     <br/>
-    <img src="readme-assets/rabbit-mq-create-book-header.JPG" height="400" width="800">
+    <img src="readme-assets/rabbit-mq-create-book-header.jpg" height="400" width="800">
 </div>
 
 ## Project setup
