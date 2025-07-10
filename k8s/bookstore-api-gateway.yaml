@@ -1,0 +1,37 @@
+# k8s/bookstore-api-gateway.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookstore-api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookstore-api-gateway
+  template:
+    metadata:
+      labels:
+        app: bookstore-api-gateway
+    spec:
+      containers:
+      - name: bookstore-api-gateway
+        image: bookstore-api-gateway:dev
+        imagePullPolicy: Never # Use local image
+        command: ["pnpm", "run", "start:dev", "bookstore-api-gateway"]
+        envFrom:
+        - configMapRef:
+            name: bookstore-config
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookstore-api-gateway
+spec:
+  selector:
+    app: bookstore-api-gateway
+  ports:
+  - port: 3000
+    targetPort: 3000
+  type: NodePort

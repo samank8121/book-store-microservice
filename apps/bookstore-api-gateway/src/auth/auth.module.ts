@@ -16,7 +16,7 @@ import { AUTH_SERVICE } from '@app/common';
           return {
             transport: Transport.TCP,
             options: { 
-              host: configService.get<string>('AUTH_HOST'),
+              host: configService.get<string>('AUTH_SERVICE_HOST'),
               port: configService.get<number>('AUTH_PORT') 
             },
           };

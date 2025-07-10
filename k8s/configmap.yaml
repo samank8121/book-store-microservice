@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bookstore-config
+data:
+  # Replace with key-value pairs from your .env file
+  NODE_ENV: development
+  MONGODB_URI: mongodb://mongodb-primary:27017/bookstore
+  RABBITMQ_URL: amqp://rabbitmq:5672
+  BOOKS_QUEUE: books-queue
+  AUTH_SERVICE_HOST: auth
+  AUTH_HOST: "0.0.0.0"
+  AUTH_PORT: "3001"
+  EXPIRATION_TIME: "3600"

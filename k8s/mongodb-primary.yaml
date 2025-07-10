@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-primary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb-primary
+  template:
+    metadata:
+      labels:
+        app: mongodb-primary
+    spec:
+      containers:
+      - name: mongodb
+        image: bitnami/mongodb:4.4
+        env:
+        - name: BITNAMI_DEBUG
+          value: "true"
+        - name: MONGODB_ADVERTISED_HOSTNAME
+          value: mongodb-primary
+        - name: MONGODB_REPLICA_SET_MODE
+          value: primary
+        - name: MONGODB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bookstore-secret
+              key: MONGODB_ROOT_PASSWORD
+        - name: MONGODB_REPLICA_SET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: bookstore-secret
+              key: MONGODB_REPLICA_SET_KEY
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: mongodb-data
+          mountPath: /mnt/mongodb-data
+      volumes:
+      - name: mongodb-data
+        persistentVolumeClaim:
+          claimName: mongodb-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-primary
+spec:
+  selector:
+    app: mongodb-primary
+  ports:
+  - port: 27017
+    targetPort: 27017
+  type: ClusterIP
