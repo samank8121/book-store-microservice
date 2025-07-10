@@ -8,15 +8,17 @@ import { AUTH_SERVICE } from '@app/common';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    ClientsModule.registerAsync([
+     ClientsModule.registerAsync([
       {
         name: AUTH_SERVICE,
         imports: [ConfigModule],
         useFactory: async (configService: ConfigService) => {
+          const host = configService.get<string>('AUTH_SERVICE_HOST');
+          console.log('AUTH_SERVICE_HOST:', host);
           return {
             transport: Transport.TCP,
             options: { 
-              host: configService.get<string>('AUTH_SERVICE_HOST'),
+              host,
               port: configService.get<number>('AUTH_PORT') 
             },
           };
