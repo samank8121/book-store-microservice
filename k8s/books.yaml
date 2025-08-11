@@ -17,6 +17,14 @@ spec:
         image: books:dev
         imagePullPolicy: Never
         command: ["sh", "-c", "./wait-for-it.sh rabbitmq:5672 -- pnpm run start:dev books"]
+        env:        
+        - name: MONGODB_USERNAME
+          value: "root"
+        - name: MONGODB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bookstore-secret
+              key: MONGODB_ROOT_PASSWORD
         envFrom:
         - configMapRef:
             name: bookstore-config        

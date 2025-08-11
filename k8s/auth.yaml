@@ -23,6 +23,13 @@ spec:
             secretKeyRef:
               name: bookstore-secret
               key: TOKEN_SECRET_KEY
+        - name: MONGODB_USERNAME
+          value: "root"
+        - name: MONGODB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bookstore-secret
+              key: MONGODB_ROOT_PASSWORD
         envFrom:
         - configMapRef:
             name: bookstore-config

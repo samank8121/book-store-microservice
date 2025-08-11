@@ -5,7 +5,7 @@ metadata:
 data:
   # Replace with key-value pairs from your .env file
   NODE_ENV: development
-  MONGODB_URI: mongodb://mongodb-primary:27017/bookstore
+  MONGODB_URI: mongodb://mongodb-primary:27017
   RABBITMQ_URL: amqp://rabbitmq:5672
   BOOKS_QUEUE: books-queue
   AUTH_SERVICE_HOST: auth
