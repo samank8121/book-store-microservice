@@ -1,4 +1,3 @@
-# k8s/bookstore-api-gateway.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,7 +15,7 @@ spec:
       containers:
       - name: bookstore-api-gateway
         image: bookstore-api-gateway:dev
-        imagePullPolicy: Never # Use local image
+        imagePullPolicy: Never
         command: ["pnpm", "run", "start:dev", "bookstore-api-gateway"]
         envFrom:
         - configMapRef:
