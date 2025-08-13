@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookstore-api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookstore-api-gateway
+  template:
+    metadata:
+      labels:
+        app: bookstore-api-gateway
+    spec:
+      containers:
+      - name: bookstore-api-gateway
+        image: {{ .Values.microservices.gateway.image }}
+        imagePullPolicy: {{ .Values.microservices.gateway.pullPolicy }}
+        command: ["pnpm", "run", "start:dev", "bookstore-api-gateway"]
+        envFrom:
+        - configMapRef:
+            name: bookstore-config 
+        ports:
+        - containerPort: {{ .Values.microservices.gateway.port }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookstore-api-gateway
+spec:
+  selector:
+    app: bookstore-api-gateway
+  ports:
+  - port: {{ .Values.microservices.gateway.port }}
+    targetPort: {{ .Values.microservices.gateway.port }}
+  type: NodePort

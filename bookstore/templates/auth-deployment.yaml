@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+      - name: auth
+        image: {{ .Values.microservices.auth.image }}
+        imagePullPolicy: {{ .Values.microservices.auth.pullPolicy }}
+        command: ["pnpm", "run", "start:dev", "auth"]
+        env:
+        - name: TOKEN_SECRET_KEY
+          value: {{ .Values.microservices.auth.tokenSecretKey | quote }}
+        - name: MONGODB_USERNAME
+          value: {{ .Values.mongodb.auth.username | quote }}
+        - name: MONGODB_ROOT_PASSWORD
+          value: {{ .Values.mongodb.auth.rootPassword | quote }}
+        envFrom:
+        - configMapRef:
+            name: bookstore-config
+        ports:
+          - containerPort: {{ .Values.microservices.auth.port }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth
+spec:
+  selector:
+    app: auth
+  ports:
+  - port: {{ .Values.microservices.auth.port }}
+    targetPort: {{ .Values.microservices.auth.port }}
+  type: ClusterIP

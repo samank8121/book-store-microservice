@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: books
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: books
+  template:
+    metadata:
+      labels:
+        app: books
+    spec:
+      containers:
+      - name: books
+        image: {{ .Values.microservices.books.image }}
+        imagePullPolicy: {{ .Values.microservices.books.pullPolicy }}
+        command: ["sh", "-c", "./wait-for-it.sh rabbitmq:5672 -- pnpm run start:dev books"]
+        env:        
+        - name: MONGODB_USERNAME
+          value: {{ .Values.mongodb.auth.username | quote }}
+        - name: MONGODB_ROOT_PASSWORD
+          value: {{ .Values.mongodb.auth.rootPassword | quote }}   
+        envFrom:
+        - configMapRef:
+            name: bookstore-config
+                 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: books
+spec:
+  selector:
+    app: books
+  ports:
+  - port: {{ .Values.microservices.books.port }}
+    targetPort: {{ .Values.microservices.books.port }}
+  type: ClusterIP
