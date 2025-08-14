@@ -16,12 +16,17 @@ spec:
       - name: books
         image: {{ .Values.microservices.books.image }}
         imagePullPolicy: {{ .Values.microservices.books.pullPolicy }}
-        command: ["sh", "-c", "./wait-for-it.sh rabbitmq:5672 -- pnpm run start:dev books"]
+        # command: ["sh", "-c", "./wait-for-it.sh rabbitmq:5672 -- pnpm run start:dev books"]
+        command: ["sh", "-c", "pnpm run start:dev books"]
         env:        
         - name: MONGODB_USERNAME
           value: {{ .Values.mongodb.auth.username | quote }}
         - name: MONGODB_ROOT_PASSWORD
-          value: {{ .Values.mongodb.auth.rootPassword | quote }}   
+          value: {{ .Values.mongodb.auth.rootPassword | quote }}  
+        # - name: RABBITMQ_URL
+        #   value: {{ .Values.microservices.rabbitmq.path | quote }} 
+        # - name: BOOKS_QUEUE
+        #   value: {{ .Values.microservices.rabbitmq.queue | quote }} 
         envFrom:
         - configMapRef:
             name: bookstore-config

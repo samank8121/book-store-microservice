@@ -10,7 +10,7 @@ import { MongooseModule } from '@nestjs/mongoose';
         const password = configService.get<string>('MONGODB_ROOT_PASSWORD');
         const host = configService.get<string>('MONGODB_URI');
         const uri = host.replace('mongodb://', `mongodb://${username}:${password}@`);
-        console.log('database connection string:', uri);
+        //console.log('database connection string:', uri);
         return ({
           uri,
         })

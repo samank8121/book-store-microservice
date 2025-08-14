@@ -2,22 +2,20 @@ mongodb:
   architecture: standalone
   auth:
     enabled: true
-    username: root
+    username: bookstore-user
     database: bookstore
   persistence:
     enabled: true
     size: 1Gi
 
-rabbitmq:
-  auth:
-    username: guest
-    port: 5672
-    queue: books-queue
+rabbitmq:  
   persistence:
     enabled: true
     size: 1Gi
 
 microservices:
+  rabbitmq:
+    queue: books-queue
   auth:
     hostName: auth
     hostAddress: "0.0.0.0"

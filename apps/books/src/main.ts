@@ -4,6 +4,10 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
+  // const configService = new ConfigService();
+  // const host = configService.get<string>('RABBITMQ_URL');
+  // const port = configService.get<number>('BOOKS_QUEUE');
+  // console.log('Books Service - RABBITMQ(url):', host, ' queue:', port);
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     BooksAppModule,
     {

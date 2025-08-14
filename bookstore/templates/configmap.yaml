@@ -4,15 +4,11 @@ metadata:
   name: bookstore-config
 data:
   NODE_ENV: development
-  MONGODB_URI: mongodb://mongodb-primary:27017
-  RABBITMQ_URL: amqp://{{ .Values.rabbitmq.auth.username | quote }}:{{ .Values.rabbitmq.auth.password | quote }}@rabbitmq:{{ .Values.rabbitmq.auth.port | quote }} 
-  BOOKS_QUEUE: {{ .Values.rabbitmq.auth.queue | quote }}  
+  MONGODB_URI: mongodb://bookstore-mongodb:27017/bookstore
+  RABBITMQ_URL: {{ .Values.microservices.rabbitmq.path | quote }} 
+  BOOKS_QUEUE: {{ .Values.microservices.rabbitmq.queue | quote }}  
   AUTH_SERVICE_HOST: {{ .Values.microservices.auth.hostName | quote }} 
   AUTH_HOST: {{ .Values.microservices.auth.hostAddress | quote }} 
   AUTH_PORT: {{ .Values.microservices.auth.port | quote }} 
-  # RABBITMQ_URL: amqp://rabbitmq:5672
-  # BOOKS_QUEUE: books-queue
-  # AUTH_SERVICE_HOST: auth
-  # AUTH_HOST: "0.0.0.0"
-  # AUTH_PORT: "3001"
-  # EXPIRATION_TIME: "3600"
+  EXPIRATION_TIME: "3600"
+ 

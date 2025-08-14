@@ -17,6 +17,11 @@ spec:
         image: {{ .Values.microservices.gateway.image }}
         imagePullPolicy: {{ .Values.microservices.gateway.pullPolicy }}
         command: ["pnpm", "run", "start:dev", "bookstore-api-gateway"]
+        # env:        
+        # - name: RABBITMQ_URL
+        #   value: {{ .Values.microservices.rabbitmq.path | quote }} 
+        # - name: BOOKS_QUEUE
+        #   value: {{ .Values.microservices.rabbitmq.queue | quote }} 
         envFrom:
         - configMapRef:
             name: bookstore-config 
